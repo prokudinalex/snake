@@ -1,0 +1,1 @@
+.\node_modules\.bin\jasmine-node .\spec\ --verbose --captureExceptions
