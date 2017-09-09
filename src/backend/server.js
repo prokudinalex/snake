@@ -49,6 +49,27 @@ wss.on('connection', (socket, message) => {
         delete users[id];
         userCount--;
     });
+
+    socket.on('message', (msg) => {
+        try {
+            msg = JSON.parse(msg);
+        } catch (err) {
+            console.error('Cannot parse msg: ', msg);
+            return;
+        }
+
+        switch (msg.type) {
+            case 'init':
+                user.url = msg.url;
+                user.ref = msg.ref;
+                break;
+            default:
+                console.log('unsexpected msg type: ', msg.type);
+                break;
+        }
+
+        console.dir(user);
+    });
 });
 
 wss.on('error', (err) => {
@@ -56,7 +77,15 @@ wss.on('error', (err) => {
 });
 
 app.get('/analytics.js', (req, res) => {
-    const js = `var socket = new WebSocket('${config.wshost}');`;
+    const js = `
+        var socket = new WebSocket('${config.wshost}');
+        socket.onopen = function() {
+            socket.send(JSON.stringify({
+                type: 'init',
+                url: document.location.href,
+                ref: document.referrer
+            }));
+        };`;
     res.set('Content-Type', 'application/javascript');
     res.send(js);
 });
