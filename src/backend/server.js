@@ -46,3 +46,20 @@ app.get('/test/*', (req, res) => {
             </html>`;
     res.send(html);
 });
+
+app.get('/', (req, res) => {
+    const html = `
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Stats</title>
+      </head>
+      <body>
+        <div id="root"></div>
+        <script src="bundle/main.js"></script>
+      </body>
+      </html>
+    `;
+    res.send(html);
+});
