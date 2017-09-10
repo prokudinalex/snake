@@ -1,8 +1,7 @@
 'use strict';
 
-var Server = require('./server.js').Server;
-
-var server = Server('8080');
-server.listen(function() {
+const Server = require('./server.js').Server;
+const server = Server('8080');
+server.listen(() => {
     console.log('Server listening on port', server.options.port);
 });

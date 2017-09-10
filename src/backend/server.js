@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const http = require('http');
 const express = require('express');
 const WsModule = require('./wsModule');
@@ -12,6 +13,24 @@ const config = {
 const app = express();
 const server = http.Server(app);
 app.disable('x-powered-by');
+
+const publicPath = express.static(path.join(__dirname, '../../public/bundle'));
+app.use('/bundle', publicPath);
+
+if (process.env.NODE_ENV !== 'production') {
+    const webpack = require('webpack');
+    const webpackDevMiddleware = require('webpack-dev-middleware');
+    const webpackHotMiddleware = require('webpack-hot-middleware');
+    const config = require('../../webpack.config.js');
+    const compiler = webpack(config);
+
+    app.use(webpackHotMiddleware(compiler));
+    app.use(webpackDevMiddleware(compiler, {
+        noInfo: true,
+        publicPath: config.output.publicPathdist
+    }));
+}
+
 server.listen(config.port);
 
 const wsModule = new WsModule(server);
