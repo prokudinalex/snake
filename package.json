@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm build && node ./src/backend/server.js",
     "dev-start": "node ./src/backend/server.js",
-    "build": "webpack --config ./webpack.deployment.config.js --progress --colors"
+    "build": "webpack --config ./webpack.config.js --progress --colors"
   },
   "repository": {
     "type": "git",
