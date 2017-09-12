@@ -16,8 +16,7 @@ function wsModule(server) {
 
 wsModule.prototype.init = function() {
     this.wss = new ws.Server({
-        server: this.server,
-        path: '/ws',
+        noServer: true,
         clientTracking: false,
         maxPayload: 1024
     });
@@ -27,8 +26,7 @@ wsModule.prototype.init = function() {
     setInterval(() => console.log(`Users online: ${this.userCount}`), 10 * 1000);
 
     this.wssadmin = new ws.Server({
-        server: this.server,
-        path: '/dashboard'
+        noServer: true
     });
     this.wssadmin.on('error', (err) => this.onError(err));
     this.wssadmin.on('connection', (socket, message) => this.onAdminConnection(socket, message));
@@ -39,7 +37,6 @@ wsModule.prototype.init = function() {
 
 wsModule.prototype.initUpgrade = function() {
     this.server.on('upgrade', (request, socket, head) => {
-        console.log('upgrade');
         const pathname = url.parse(request.url).pathname;
         if (pathname === '/ws') {
             this.wss.handleUpgrade(request, socket, head, (ws) => {
@@ -77,7 +74,7 @@ wsModule.prototype.onConnection = function(socket, message) {
         updated: Date.now()
     };
 
-    this.users.id = user;
+    this.users[id] = user;
 
     socket.once('close', () => {
         delete this.users[id];
@@ -101,7 +98,5 @@ wsModule.prototype.onConnection = function(socket, message) {
                 console.log('unsexpected msg type: ', msg.type);
                 break;
         }
-
-        console.dir(user);
     });
 };
