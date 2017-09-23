@@ -93,6 +93,7 @@ wsModule.prototype.onConnection = function(socket, message) {
             case 'init':
                 user.url = msg.url;
                 user.ref = msg.ref;
+                this.broadcast();
                 break;
             default:
                 console.log('unsexpected msg type: ', msg.type);

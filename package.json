@@ -31,6 +31,7 @@
     "express": "^4.15.4",
     "file-loader": "^0.11.2",
     "geoip-lite": "^1.2.1",
+    "lodash": "^4.17.4",
     "percolator": "^1.5.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
