@@ -30,7 +30,6 @@ wsModule.prototype.init = function() {
     });
     this.wssadmin.on('error', (err) => this.onError(err));
     this.wssadmin.on('connection', (socket, message) => this.onAdminConnection(socket, message));
-    setInterval(() => this.wssadmin.clients.forEach((client) => client.send(JSON.stringify(this.users))), 1000);
 
     this.initUpgrade();
 };
@@ -79,6 +78,7 @@ wsModule.prototype.onConnection = function(socket, message) {
     socket.once('close', () => {
         delete this.users[id];
         this.userCount--;
+        this.broadcast();
     });
 
     socket.on('message', (msg) => {
@@ -99,4 +99,10 @@ wsModule.prototype.onConnection = function(socket, message) {
                 break;
         }
     });
+
+    this.broadcast();
+};
+
+wsModule.prototype.broadcast = function() {
+    this.wssadmin.clients.forEach((client) => client.send(JSON.stringify(this.users)));
 };
