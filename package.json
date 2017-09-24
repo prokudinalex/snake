@@ -34,6 +34,7 @@
     "leaflet": "^1.2.0",
     "lodash": "^4.17.4",
     "percolator": "^1.5.0",
+    "public-ip": "^2.3.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-leaflet": "^1.6.6",

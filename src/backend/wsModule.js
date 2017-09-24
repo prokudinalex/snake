@@ -4,6 +4,7 @@ const ws = require('ws');
 const geoip = require('geoip-lite');
 const useragent = require('useragent');
 const url = require('url');
+const publicIp = require('public-ip');
 
 module.exports = wsModule;
 
@@ -74,6 +75,15 @@ wsModule.prototype.onConnection = function(socket, message) {
     };
 
     this.users[id] = user;
+
+    if (!user.ipgeo) {
+        publicIp.v4().then((ip) => {
+            user.ip = ip;
+            user.ipgeo = geoip.lookup(ip);
+            user.updated = Date.now();
+            this.broadcast();
+        });
+    }
 
     socket.once('close', () => {
         delete this.users[id];
