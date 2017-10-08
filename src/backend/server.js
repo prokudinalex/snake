@@ -16,9 +16,11 @@ app.disable('x-powered-by');
 const publicBundle = express.static(path.join(__dirname, '../../public/bundle'));
 app.use('/bundle', publicBundle);
 
-const snakeBundle = express.static(path.join(__dirname, '../../public/snake'));
-app.use('/snake', snakeBundle);
-app.use('/', snakeBundle);
+const simpleSnake = express.static(path.join(__dirname, '../../public/snake/simple'));
+app.use('/simple', simpleSnake);
+
+const wsSnake = express.static(path.join(__dirname, '../../public/snake/ws'));
+app.use('/snake', wsSnake);
 
 if (process.env.NODE_ENV !== 'production') {
     const webpack = require('webpack');
