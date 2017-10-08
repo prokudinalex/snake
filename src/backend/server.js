@@ -7,7 +7,7 @@ const WsModule = require('./wsModule');
 
 const config = {
     port: 8080,
-    wshost: 'ws://192.168.1.33:8080/ws'
+    wshost: 'ws://localhost:8080/ws'
 };
 
 const app = express();

@@ -4,7 +4,7 @@
   "description": "Node.js version of multiplayer snake game",
   "main": "index.js",
   "scripts": {
-    "start": "npm build && node ./src/backend/server.js",
+    "start": "npm run build && node ./src/backend/server.js",
     "dev-start": "node ./src/backend/server.js",
     "build": "webpack --config ./webpack.config.js --progress --colors"
   },
